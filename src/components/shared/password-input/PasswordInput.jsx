@@ -5,7 +5,7 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import TextField from "../../shared/input/TextField";
 
-function PasswordInput() {
+function PasswordInput({ ...props }) {
 	const [showPassword, setShowPassword] = useState(false);
 	const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -32,6 +32,7 @@ function PasswordInput() {
 					}}
 					variant="outlined"
 					size="medium"
+					{...props}
 				/>
 			</Stack>
 		</Stack>

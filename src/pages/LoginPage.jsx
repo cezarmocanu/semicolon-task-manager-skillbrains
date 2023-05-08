@@ -33,10 +33,16 @@ function LoginPage() {
 	};
 
 	const handleLoginClick = () => {
-		authService.login(loginData.username, loginData.password).then((_) => {
-			dispatch(login());
-			navigate(RoutePaths.PRIVATE);
-		});
+		authService
+			.login(loginData.username, loginData.password)
+			.then((loggedInWithSuccess) => {
+				if (!loggedInWithSuccess) {
+					return;
+				}
+
+				dispatch(login());
+				navigate(RoutePaths.TEST);
+			});
 	};
 
 	return (
