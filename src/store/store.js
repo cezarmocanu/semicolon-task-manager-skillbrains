@@ -7,7 +7,7 @@ const store = configureStore({
 	reducer: {
 		counter: CounterReducer,
 		authentication: AuthenticationReducer,
-		modal: ModalReducer,		
+		modal: ModalReducer,
 	},
 });
 
