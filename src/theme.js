@@ -26,6 +26,7 @@ const theme = createTheme({
 			light: "#FCE4E4",
 			light2: "#f3f9fc",
 			light3: "#5b7ae8",
+			light4: '#E5E5E5'
 		},
 		success: {
 			main: "#00C271",

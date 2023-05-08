@@ -29,6 +29,7 @@ import TextField from "../components/shared/input/TextField";
 import TaskTimeline from "../components/TaskTimeline";
 import TestCounter from "../components/TestCounter";
 import PasswordInput from "../components/shared/password-input/PasswordInput";
+import Settings from "../components/Settings";
 import { useDispatch } from "react-redux";
 import { openModal } from "../store/slices/modal-slice";
 import ModalTypes from "../constants/modal-types";
@@ -836,6 +837,7 @@ function Test() {
 			<TaskTimeline startDate={Date.now()} dueDate={Date.now()} />
 			<TaskTimeline startDate={new Date("2023-10-10")} dueDate={Date.now()} />
 			<PasswordInput />
+			<Settings/>
 		</Box>
 	);
 }
