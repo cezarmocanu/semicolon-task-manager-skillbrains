@@ -41,7 +41,7 @@ function SideBar() {
 				<Stack
 					direction="column"
 					spacing={2}
-					padding={1}
+					padding={2}
 					sx={{
 						backgroundColor: theme.palette.primary.main,
 					}}
@@ -72,9 +72,7 @@ function SideBar() {
 				</Stack>
 				<Stack
 					sx={{
-						width: JSON.parse(localStorage.getItem("isExpanded"))
-							? EXPANDED_DRAWER_WIDTH - BASE_DRAWER_WIDTH
-							: 0,
+						width: isExpanded ? EXPANDED_DRAWER_WIDTH - BASE_DRAWER_WIDTH : 0,
 						transition: "width 0.2s",
 					}}
 				>
