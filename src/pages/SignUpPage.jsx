@@ -1,50 +1,12 @@
 import React from "react";
-import { Typography, Stack, Box, InputAdornment } from "@mui/material";
+import { Typography, Stack, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import ContainedImage from "../components/ContainedImage";
 import Button from "../components/shared/button/Button";
-import FormLabel from "../components/shared/input/FormLabel";
-import TextField from "../components/shared/input/TextField";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import { useFormik } from "formik";
-import * as yup from "yup";
-
-const initialValues = {
-	firstName: "",
-	lastName: "",
-	email: "",
-	password: "",
-};
-
-const validationSchema = yup.object({
-	firstName: yup
-		.string("Enter your first name")
-		.required("First name is required"),
-	lastName: yup
-		.string("Enter your last name")
-		.required("Last name is required"),
-	email: yup
-		.string("Enter your email")
-		.email("Enter a valid email")
-		.required("Email is required"),
-	password: yup
-		.string("Enter your password")
-		.min(8, "Password should be of minimum 8 characters length")
-		.required("Password is required"),
-});
-
-const onSubmit = (values) => {
-	console.log("from button", formik.values);
-};
+import SignUpForm from "../components/forms/SignUpForm";
 
 function SignUpPage() {
 	const theme = useTheme();
-
-	const formik = useFormik({
-		initialValues: initialValues,
-		validationSchema: validationSchema,
-		onSubmit: onSubmit,
-	});
 
 	return (
 		<Stack sx={{ width: "100%", height: "100vh" }}>
@@ -101,74 +63,7 @@ function SignUpPage() {
 								</Typography>
 								<Typography>It’s Simpe and Easy!!</Typography>
 							</Stack>
-							<Stack>
-								<FormLabel>First Name</FormLabel>
-								<TextField
-									name="firstName"
-									onChange={formik.handleChange}
-									value={formik.values.firstName}
-									error={
-										formik.touched.firstName && Boolean(formik.errors.firstName)
-									}
-									helperText={
-										formik.touched.firstName && formik.errors.firstName
-									}
-									required
-									variant="outlined"
-									size="small"
-								/>
-								<FormLabel>Last Name</FormLabel>
-								<TextField
-									name="lastName"
-									onChange={formik.handleChange}
-									value={formik.values.lastName}
-									error={
-										formik.touched.lastName && Boolean(formik.errors.lastName)
-									}
-									helperText={formik.touched.lastName && formik.errors.lastName}
-									variant="outlined"
-									size="small"
-								/>
-								<FormLabel>Email Address</FormLabel>
-								<TextField
-									name="email"
-									onChange={formik.handleChange}
-									value={formik.values.email}
-									error={formik.touched.email && Boolean(formik.errors.email)}
-									helperText={formik.touched.email && formik.errors.email}
-									variant="outlined"
-									size="small"
-								/>
-								<FormLabel>Enter A Password</FormLabel>
-								<TextField
-									name="password"
-									onChange={formik.handleChange}
-									value={formik.values.password}
-									error={
-										formik.touched.password && Boolean(formik.errors.password)
-									}
-									helperText={formik.touched.password && formik.errors.password}
-									InputProps={{
-										endAdornment: (
-											<InputAdornment position="end">
-												<VisibilityOutlinedIcon />
-											</InputAdornment>
-										),
-									}}
-									type="password"
-									variant="outlined"
-									size="small"
-								/>
-							</Stack>
-							<Button
-								onClick={formik.handleSubmit}
-								type="submit"
-								variant="contained"
-								color="primary"
-								size="large"
-							>
-								Create account
-							</Button>
+							<SignUpForm />
 						</Stack>
 					</Stack>
 				</Stack>
