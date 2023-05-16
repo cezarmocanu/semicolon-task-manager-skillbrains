@@ -11,6 +11,7 @@ import {
 	Stack,
 	Typography,
 	Grid,
+	MenuItem,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "./../shared/button/Button";
@@ -18,6 +19,7 @@ import FormLabel from "./../shared/input/FormLabel";
 import TextField from "./../shared/input/TextField";
 import DatePicker from "./../shared/date-picker/DatePicker";
 import { closeModal } from "../../store/slices/modal-slice";
+import { useDispatch } from "react-redux";
 
 const OPTIONS = [
 	{ value: "Low", id: 1 },
@@ -29,6 +31,7 @@ function CreateTask() {
 	const theme = useTheme();
 	const today = useMemo(() => dayjs());
 	const tomorrow = useMemo(() => today.add(1, "day"));
+	const dispatch = useDispatch();
 	const [formState, setFormState] = useState({
 		taskName: "",
 		priority: "",
@@ -59,7 +62,10 @@ function CreateTask() {
 		>
 			<Stack sx={{ width: "100%" }}>
 				<DialogActions sx={{ paddingBottom: 0 }}>
-					<IconButton onClick={closeModal} color="theme.text.primary">
+					<IconButton
+						onClick={() => dispatch(closeModal())}
+						color="theme.text.primary"
+					>
 						<CloseIcon />
 					</IconButton>
 				</DialogActions>
@@ -87,15 +93,13 @@ function CreateTask() {
 										<TextField
 											select
 											name="priority"
-											SelectProps={{
-												native: true,
-											}}
+											value={formState.priority}
 											onChange={handleFieldChange}
 										>
 											{OPTIONS.map((option) => (
-												<option key={option.value} value={option.value}>
+												<MenuItem key={option.value} value={option.value}>
 													{option.value}
-												</option>
+												</MenuItem>
 											))}
 										</TextField>
 									</Stack>
@@ -107,7 +111,7 @@ function CreateTask() {
 										</FormLabel>
 										<LocalizationProvider dateAdapter={AdapterDayjs}>
 											<DatePicker
-												defaultValue={today}
+												defaultValue={tomorrow}
 												minDate={tomorrow}
 												onChange={handleChangeDueDate}
 											/>
