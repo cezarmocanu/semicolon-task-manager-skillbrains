@@ -21,8 +21,9 @@ import TestContent2 from "./components/modal-content/TestContent2";
 import CreateTask from "./components/modal-content/CreateTask";
 import LogoutModal from "./components/modal-content/LogoutModal";
 import DeleteTaskModalContent from "./components/modal-content/DeleteTaskModalContent";
-import ProtectedRoute from "./utils/ProtectedRoute";
+import TaskDetailsPage from "./pages/TaskDetailsPage";
 import FadeIn from "./utils/FadeIn";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 function App() {
 	const dispatch = useDispatch();
@@ -123,6 +124,14 @@ function App() {
 						element={
 							<ProtectedRoute>
 								<SettingsPage />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={RoutePaths.TASK_DETAILS}
+						element={
+							<ProtectedRoute>
+								<TaskDetailsPage />
 							</ProtectedRoute>
 						}
 					/>
