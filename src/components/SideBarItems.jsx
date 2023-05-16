@@ -27,7 +27,7 @@ const MENU_ITEMS = [
 	{
 		text: "Settings",
 		Icon: SettingsIcon,
-		route: RoutePaths.TEST,
+		route: RoutePaths.SETTINGS,
 	},
 ];
 
@@ -51,8 +51,9 @@ function SideBarItems() {
 			)),
 		[MENU_ITEMS]
 	);
-
-	return <List>{items}</List>;
+	if (JSON.parse(localStorage.getItem("isExpanded")) === true) {
+		return <List>{items}</List>;
+	}
 }
 
 export default SideBarItems;

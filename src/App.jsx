@@ -9,6 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import WorkspacePage from "./pages/WorkspacePage";
 import PrivatePage from "./pages/PrivatePage";
 import WorkspacesCardsPage from "./pages/WorkspacesCardsPage";
+import SettingsPage from "./pages/SettingsPage";
 import { initializeAuth, logout } from "./store/slices/authentication-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectModal, closeModal } from "./store/slices/modal-slice";
@@ -20,8 +21,9 @@ import TestContent2 from "./components/modal-content/TestContent2";
 import CreateTask from "./components/modal-content/CreateTask";
 import LogoutModal from "./components/modal-content/LogoutModal";
 import DeleteTaskModalContent from "./components/modal-content/DeleteTaskModalContent";
-import ProtectedRoute from "./utils/ProtectedRoute";
+import TaskDetailsPage from "./pages/TaskDetailsPage";
 import FadeIn from "./utils/FadeIn";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 function App() {
 	const dispatch = useDispatch();
@@ -114,6 +116,22 @@ function App() {
 						element={
 							<ProtectedRoute>
 								<WorkspacesCardsPage />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={RoutePaths.SETTINGS}
+						element={
+							<ProtectedRoute>
+								<SettingsPage />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={RoutePaths.TASK_DETAILS}
+						element={
+							<ProtectedRoute>
+								<TaskDetailsPage />
 							</ProtectedRoute>
 						}
 					/>

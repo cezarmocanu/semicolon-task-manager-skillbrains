@@ -52,7 +52,7 @@ function SideBar() {
 				<Stack
 					direction="column"
 					spacing={2}
-					padding={2}
+					padding={1.85}
 					sx={{
 						backgroundColor: theme.palette.primary.main,
 					}}
@@ -87,7 +87,13 @@ function SideBar() {
 						transition: "width 0.2s",
 					}}
 				>
-					<Stack padding={2} paddingTop={5}>
+					<Stack
+						padding={2}
+						paddingTop={5}
+						sx={{
+							display: isExpanded ? "flex" : "none",
+						}}
+					>
 						<Typography variant="h6" component="h3">
 							Me & I
 						</Typography>

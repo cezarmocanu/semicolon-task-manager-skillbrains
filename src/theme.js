@@ -37,6 +37,7 @@ const theme = createTheme({
 			disabled: "#C2C4CF",
 			light: "#F0F1F4",
 		},
+		white: "#F5F7FE",
 		// styleOverrides: {
 		// 	colorPrimary: {
 		// 		backgroundColor: "#F5F7FE",
