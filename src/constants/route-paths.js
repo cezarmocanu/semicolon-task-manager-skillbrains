@@ -10,7 +10,8 @@ const RoutePaths = {
 	AUTH: "/auth",
 	PRIVATE: "/private",
 	WORKSPACES: "/workspaces",
-	SETTINGS: "/settings"
+	SETTINGS: "/settings",
+	TASK_DETAILS: "/task-details",
 };
 
 export default RoutePaths;
