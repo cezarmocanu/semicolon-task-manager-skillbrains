@@ -76,9 +76,13 @@ function SideBar() {
 						transition: "width 0.2s",
 					}}
 				>
-					<Stack padding={2} paddingTop={5} sx={{
-						display: isExpanded ? "flex" : "none",
-					}}>
+					<Stack
+						padding={2}
+						paddingTop={5}
+						sx={{
+							display: isExpanded ? "flex" : "none",
+						}}
+					>
 						<Typography variant="h6" component="h3">
 							Me & I
 						</Typography>
