@@ -1,4 +1,4 @@
-const HOST = "http://209.250.238.186:8081";
+const HOST = "https://semicolon-api.torium-systems.com";
 const API = `${HOST}/api`;
 export const ENDPOINTS = {
 	AUTH: {
