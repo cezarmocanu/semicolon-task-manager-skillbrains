@@ -4,16 +4,9 @@ import { useTheme } from "@mui/material/styles";
 import ContainedImage from "../components/ContainedImage";
 import Button from "../components/shared/button/Button";
 import SignUpForm from "../components/forms/SignUpForm";
-import { useNavigate } from "react-router-dom";
-import RoutePaths from "../constants/route-paths";
 
 function SignUpPage() {
 	const theme = useTheme();
-	const navigate = useNavigate();
-
-	const handleLoginClick = () => {
-		navigate(RoutePaths.LOGIN);
-	};
 
 	return (
 		<Stack sx={{ width: "100%", height: "100vh" }}>
@@ -46,11 +39,7 @@ function SignUpPage() {
 				<Stack flexGrow={1} sx={{ p: 3 }}>
 					<Stack direction="row" justifyContent="end">
 						<Box>
-							<Button
-								onClick={handleLoginClick}
-								size="small"
-								variant="outlined"
-							>
+							<Button href="/login" size="small" variant="outlined">
 								Log In
 							</Button>
 						</Box>
