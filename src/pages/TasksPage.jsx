@@ -4,6 +4,9 @@ import { Box, Container, Grid, Tab, Tabs, Typography } from "@mui/material";
 import Button from "../components/shared/button/Button";
 import TaskStatus from "../constants/task-status";
 import TaskCardComponent from "../components/TaskCardComponent";
+import { useDispatch } from "react-redux";
+import { openModal } from "../store/slices/modal-slice";
+import ModalTypes from "../constants/modal-types";
 
 const mockCards = [
 	{
@@ -33,6 +36,7 @@ const mockCards = [
 ];
 
 const TasksMockPage = () => {
+	const dispatch = useDispatch();
 	const [data, setData] = useState(mockCards);
 	const [tabIndex, setTabIndex] = useState(0);
 	const [status, setStatus] = useState(null);
@@ -102,6 +106,9 @@ const TasksMockPage = () => {
 						height: "32px",
 						marginTop: "4rem",
 						marginRight: "2rem",
+					}}
+					onClick={() => {
+						dispatch(openModal(ModalTypes.CREATE_TASK));
 					}}
 				>
 					Create Task
