@@ -39,7 +39,7 @@ function CreateTask() {
 	const INITIAL_VALUES = {
 		taskName: "",
 		priority: "",
-		dueDate: "",
+		dueDate: new Date(),
 		description: "",
 	};
 	const onSubmit = (values) => {
@@ -53,17 +53,7 @@ function CreateTask() {
 	});
 
 	return (
-		<Stack
-			sx={{
-				[theme.breakpoints.up("lg")]: {
-					width: "35vw",
-				},
-				[theme.breakpoints.up("md")]: {
-					width: "50vw",
-				},
-				width: "65vw",
-			}}
-		>
+		<Stack>
 			<Stack sx={{ width: "100%" }}>
 				<DialogActions sx={{ paddingBottom: 0 }}>
 					<IconButton
@@ -132,7 +122,7 @@ function CreateTask() {
 										<LocalizationProvider dateAdapter={AdapterDayjs}>
 											<DatePicker
 												slotProps={{ textField: { size: "small" } }}
-												defaultValue={tomorrow}
+												selected={tomorrow}
 												minDate={tomorrow}
 												onBlur={formik.handleBlur}
 												// value={formik.values.dueDate}
