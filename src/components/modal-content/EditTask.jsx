@@ -45,7 +45,7 @@ function EditTask() {
 	const handleChangeDueDate = (selectedDate) => {
 		setFormState({ ...formState, dueDate: selectedDate.toDate() });
 	};
-	const onSubmitAddTask = () => {
+	const onSubmitEditTask = () => {
 		console.log(formState);
 	};
 	return (
@@ -139,7 +139,7 @@ function EditTask() {
 								variant="contained"
 								color="primary"
 								size="large"
-								onClick={onSubmitAddTask}
+								onClick={onSubmitEditTask}
 							>
 								Edit Task
 							</Button>
