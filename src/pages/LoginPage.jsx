@@ -14,6 +14,7 @@ import RoutePaths from "../constants/route-paths";
 import PasswordInput from "../components/shared/password-input/PasswordInput";
 import { useDispatch } from "react-redux";
 import { login } from "../store/slices/authentication-slice";
+import LocalStorageKeys from "../constants/local-storage-keys";
 
 function LoginPage() {
 	const theme = useTheme();
@@ -21,10 +22,26 @@ function LoginPage() {
 	const dispatch = useDispatch();
 
 	const [loginData, setLoginData] = useState({
-		username: localStorage.username || "",
+		username: "",
 		password: "",
 	});
 	const [isChecked, setIsChecked] = useState(false);
+
+	useEffect(() => {
+		const localStorageIsChecked = JSON.parse(
+			localStorage.getItem(LocalStorageKeys.isChecked)
+		);
+		const localStorageUsername = localStorage.getItem(
+			LocalStorageKeys.username
+		);
+
+		if (!localStorageIsChecked || localStorageUsername === null) {
+			return;
+		}
+
+		setIsChecked(localStorageIsChecked);
+		setLoginData({ ...loginData, username: localStorageUsername });
+	}, []);
 
 	const onTextFieldChange = (e) => {
 		setLoginData((prevState) => ({
@@ -36,7 +53,10 @@ function LoginPage() {
 	const handleRememberCheck = useCallback(() => {
 		setIsChecked((isChecked) => {
 			const nextValue = !isChecked;
-			localStorage.setItem("isChecked", nextValue);
+			localStorage.setItem(
+				LocalStorageKeys.isChecked,
+				JSON.stringify(nextValue)
+			);
 			return nextValue;
 		});
 	}, [setIsChecked]);
@@ -48,24 +68,15 @@ function LoginPage() {
 				if (!loggedInWithSuccess) {
 					return;
 				}
+
+				if (isChecked) {
+					localStorage.setItem(LocalStorageKeys.username, loginData.username);
+				}
+
 				dispatch(login());
 				navigate(RoutePaths.TEST);
 			});
 	};
-	useEffect(() => {
-		const email = loginData.username;
-		const user = localStorage.setItem(
-			"username",
-			isChecked === true ? email : ""
-		);
-		const savedEmail = localStorage.getItem("username");
-	}),
-		[loginData];
-
-	useEffect(() => {
-		const getCheck = JSON.parse(localStorage.getItem("isChecked"));
-		setIsChecked(getCheck);
-	}, []);
 
 	return (
 		<Stack sx={{ width: "100%", height: "100vh" }}>
