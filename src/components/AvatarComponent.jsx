@@ -1,94 +1,105 @@
-import React, { useState } from "react";
-import { IconButton, Box, Button, Snackbar, Typography } from "@mui/material";
-import {
-	Close as CloseIcon,
-	CloudUpload as CloudUploadIcon,
-	CheckCircle as CheckCircleIcon,
-} from "@mui/icons-material";
-import defaultImage from "../assets/images/default-avatar.png";
+import React, { useState, useRef } from "react";
+import { Box, Button } from "@mui/material";
+import { CloudUpload as CloudUploadIcon } from "@mui/icons-material";
+import placeholder from "../assets/images/placeholder.jpg";
 
-const AvatarComponent = () => {
-	const [file, setFile] = useState(null);
-	const [imagePreviewUrl, setImagePreviewUrl] = useState(defaultImage);
-	const [uploadSuccess, setUploadSuccess] = useState(false);
+const AvatarComponent = (props) => {
+  const [file, setFile] = useState(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+  const fileInput = useRef(null);
 
-	const handleImageChange = (e) => {
-		e.preventDefault();
-		let reader = new FileReader();
-		let newFile = e.target.files[0];
-		reader.onloadend = () => {
-			setFile(newFile);
-			setImagePreviewUrl(reader.result);
-		};
-		if (newFile) {
-			reader.readAsDataURL(newFile);
-		}
-	};
+  const handleImageChange = (e) => {
+    e.preventDefault();
+    const reader = new FileReader();
+    const newFile = e.target.files[0];
+    reader.onloadend = () => {
+      setFile(newFile);
+      setImagePreviewUrl(reader.result);
+      if (props.onChange) {
+        props.onChange(newFile);
+      }
+    };
+    if (newFile) {
+      reader.readAsDataURL(newFile);
+    }
+  };
 
-	const handleUpload = () => {
-		setTimeout(() => {
-			setUploadSuccess(true);
-		}, 2000);
-	};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
-	const handleCloseSnackbar = () => {
-		setUploadSuccess(false);
-	};
+  const handleClick = () => {
+    fileInput.current.click();
+  };
 
-	return (
-		<Box display="flex" flexDirection="column" alignItems="center">
-			<Box
-				display="flex"
-				justifyContent="space-between"
-				alignItems="center"
-				my={2}
-			>
-				<Snackbar
-					open={uploadSuccess}
-					autoHideDuration={3000}
-					onClose={handleCloseSnackbar}
-					message="Upload successful!"
-					anchorOrigin={{
-						vertical: "bottom",
-						horizontal: "center",
-					}}
-				>
-					<Box display="flex" alignItems="center" justifyContent="center" p={1}>
-						<CheckCircleIcon />
-						<Typography variant="body2">Upload successful!</Typography>
-					</Box>
-				</Snackbar>
+  const handleRemove = () => {
+    setFile(null);
+    setImagePreviewUrl(null);
+    fileInput.current.value = null;
+  };
 
-				<Typography variant="h5">Upload your profile picture</Typography>
-				<IconButton>
-					<CloseIcon />
-				</IconButton>
-			</Box>
-			<Box component="div" className="picture">
-				<img
-					src={imagePreviewUrl}
-					className="picture-src"
-					alt="..."
-					style={{ width: 200, height: 200, borderRadius: "15%" }}
-				/>
-			</Box>
-			<Box mt={2}>
-				<Box display="flex" alignItems="center">
-					<Button variant="outline" size="small">
-						<IconButton color="primary" component="label">
-							<input
-								type="file"
-								style={{ display: "none" }}
-								onChange={(e) => handleImageChange(e)}
-							/>
-							Upload Picture
-							<CloudUploadIcon />
-						</IconButton>
-					</Button>
-				</Box>
-			</Box>
-		</Box>
-	);
+  const { addButtonProps, changeButtonProps, removeButtonProps } = props;
+
+  return (
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      sx={{
+        backgroundColor: "whitesmoke",
+        padding: "16px",
+        borderRadius: "4px",
+      }}
+    >
+      <input type="file" onChange={handleImageChange} ref={fileInput} style={{ display: 'none' }} />
+      {imagePreviewUrl ? (
+        <Box
+          component="div"
+          sx={{
+            width: "200px",
+            height: "200px",
+            borderRadius: "50%",
+          }}
+        >
+          <img src={imagePreviewUrl} alt="Avatar" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }} />
+        </Box>
+      ) : (
+        <Box
+          component="div"
+          sx={{
+            width: "200px",
+            height: "200px",
+            borderRadius: "50%",
+            backgroundColor: "whitesmoke",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <img src={placeholder} alt="Placeholder" style={{ maxWidth: "100%", maxHeight: "100%" }} />
+        </Box>
+      )}
+      <Box mt={2}>
+        {file === null ? (
+          <Box display="flex" alignItems="center">
+            <Button {...addButtonProps} onClick={handleClick} sx={{ marginRight: "8px" }}>
+              Select Avatar
+              <CloudUploadIcon sx={{ marginLeft: "4px" }} />
+            </Button>
+          </Box>
+        ) : (
+          <Box display="flex" alignItems="center">
+            <Button {...changeButtonProps} onClick={handleClick} sx={{ marginRight: "8px" }}>
+              Change
+            </Button>
+            <Button {...removeButtonProps} onClick={handleRemove}>
+              Remove
+            </Button>
+          </Box>
+        )}
+      </Box>
+    </Box>
+  );
 };
 
 export default AvatarComponent;
