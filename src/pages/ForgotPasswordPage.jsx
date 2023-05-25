@@ -8,7 +8,7 @@ import {
 	AlertTitle,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-
+import ForgotPasswordForm from "../components/forms/ForgotPasswordForm";
 function ForgotPasswordPage() {
 	const theme = useTheme();
 
@@ -49,43 +49,10 @@ function ForgotPasswordPage() {
 						color: "text.secondary",
 					}}
 				>
-					We are sorry to hear that happen.Don't be sad we could help you get
+					We are sorry to hear that happen. Don't be sad we could help you get
 					back to productivity in no time.
 				</Typography>
-				<Typography
-					variant="body1"
-					component="h3"
-					sx={{
-						color: "text.secondary",
-						marginTop: "1rem",
-					}}
-				>
-					Enter your Email :
-				</Typography>
-				<TextField
-					margin="normal"
-					required
-					fullWidth
-					id="email"
-					label="Email Address"
-					name="email"
-					autoComplete="email"
-					autoFocus
-				/>
-				<Stack direction={"row"} justifyContent="center">
-					<Button
-						size="large"
-						variant="contained"
-						sx={{
-							width: "100%",
-							borderRadius: "0.5rem",
-							padding: "0.6rem 1rem",
-							margin: "0.5rem",
-						}}
-					>
-						Send recovery email
-					</Button>
-				</Stack>
+				<ForgotPasswordForm/>
 				<Stack
 					direction="column"
 					sx={{

@@ -77,6 +77,15 @@ function Test() {
 				<Button
 					variant="contained"
 					onClick={() => {
+						dispatch(openModal(ModalTypes.EDIT_TASK));
+					}}
+				>
+					EditModalContent
+				</Button>
+
+				<Button
+					variant="contained"
+					onClick={() => {
 						dispatch(openModal(ModalTypes.TEST));
 					}}
 				>

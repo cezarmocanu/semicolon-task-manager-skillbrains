@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Typography, Stack, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,7 @@ import RoutePaths from "../constants/route-paths";
 import PasswordInput from "../components/shared/password-input/PasswordInput";
 import { useDispatch } from "react-redux";
 import { login } from "../store/slices/authentication-slice";
+import LocalStorageKeys from "../constants/local-storage-keys";
 
 function LoginPage() {
 	const theme = useTheme();
@@ -24,6 +25,23 @@ function LoginPage() {
 		username: "",
 		password: "",
 	});
+	const [isChecked, setIsChecked] = useState(false);
+
+	useEffect(() => {
+		const localStorageIsChecked = JSON.parse(
+			localStorage.getItem(LocalStorageKeys.isChecked)
+		);
+		const localStorageUsername = localStorage.getItem(
+			LocalStorageKeys.username
+		);
+
+		if (!localStorageIsChecked || localStorageUsername === null) {
+			return;
+		}
+
+		setIsChecked(localStorageIsChecked);
+		setLoginData({ ...loginData, username: localStorageUsername });
+	}, []);
 
 	const onTextFieldChange = (e) => {
 		setLoginData((prevState) => ({
@@ -32,12 +50,27 @@ function LoginPage() {
 		}));
 	};
 
+	const handleRememberCheck = useCallback(() => {
+		setIsChecked((isChecked) => {
+			const nextValue = !isChecked;
+			localStorage.setItem(
+				LocalStorageKeys.isChecked,
+				JSON.stringify(nextValue)
+			);
+			return nextValue;
+		});
+	}, [setIsChecked]);
+
 	const handleLoginClick = () => {
 		authService
 			.login(loginData.username, loginData.password)
 			.then((loggedInWithSuccess) => {
 				if (!loggedInWithSuccess) {
 					return;
+				}
+
+				if (isChecked) {
+					localStorage.setItem(LocalStorageKeys.username, loginData.username);
 				}
 
 				dispatch(login());
@@ -87,7 +120,16 @@ function LoginPage() {
 								/>
 							</Stack>
 							<FormControlLabel
-								control={<Checkbox checked={false} />}
+								style={{ pointerEvents: "none" }}
+								control={
+									<Checkbox
+										onClick={handleRememberCheck}
+										style={{ pointerEvents: "auto" }}
+										checked={isChecked}
+										name="checkbox"
+										value={loginData.checkbox}
+									/>
+								}
 								label={<Typography fontWeight="bold"> Remember me</Typography>}
 							/>
 						</Stack>
