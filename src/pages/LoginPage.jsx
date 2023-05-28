@@ -63,14 +63,14 @@ function LoginPage() {
 
 	const handleLoginClick = () => {
 		authService
-			.login(loginData.username, loginData.password)
+			.login(loginData.username.trim(), loginData.password)
 			.then((loggedInWithSuccess) => {
 				if (!loggedInWithSuccess) {
 					return;
 				}
 
 				if (isChecked) {
-					localStorage.setItem(LocalStorageKeys.username, loginData.username);
+					localStorage.setItem(LocalStorageKeys.username, loginData.username.trim());
 				}
 
 				dispatch(login());
