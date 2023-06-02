@@ -13,49 +13,51 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Button from "../../components/shared/button/Button";
 
+import { useFormik } from "formik";
+import * as yup from "yup";
+
 function LoginForm() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const [loginData, setLoginData] = useState({
-		username: "",
-		password: "",
-	});
+	const [loginData, setLoginData] = useState({ INITIAL_VALUES });
 	const [isChecked, setIsChecked] = useState(false);
+
+	const onSubmit = (values) => {
+		console.log("from button", values);
+	};
+
+	const formik = useFormik({
+		initialValues: INITIAL_VALUES,
+		validationSchema,
+		onSubmit,
+	});
 
 	useEffect(() => {
 		const localStorageIsChecked = JSON.parse(
 			localStorage.getItem(LocalStorageKeys.isChecked)
 		);
-		const localStorageUsername = localStorage.getItem(
-			LocalStorageKeys.username
-		);
+		const localStorageEmail = localStorage.getItem(LocalStorageKeys.email);
 
-		if (!localStorageIsChecked || localStorageUsername === null) {
+		if (!localStorageIsChecked || localStorageEmail === null) {
 			return;
 		}
 
 		setIsChecked(localStorageIsChecked);
-		setLoginData({ ...loginData, username: localStorageUsername });
+		setLoginData({ ...loginData, email: localStorageEmail });
 	}, []);
 
-	const onTextFieldChange = (e) => {
-		setLoginData((prevState) => ({
-			...prevState,
-			[e.target.name]: e.target.value,
-		}));
-	};
-
+	/* what do I do with handleLoginClick? */
 	const handleLoginClick = () => {
 		authService
-			.login(loginData.username, loginData.password)
+			.login(loginData.email, loginData.password)
 			.then((loggedInWithSuccess) => {
 				if (!loggedInWithSuccess) {
 					return;
 				}
 
 				if (isChecked) {
-					localStorage.setItem(LocalStorageKeys.username, loginData.username);
+					localStorage.setItem(LocalStorageKeys.email, loginData.email);
 				}
 
 				dispatch(login());
@@ -80,20 +82,23 @@ function LoginForm() {
 				<Stack>
 					<FormLabel>Email Address</FormLabel>
 					<TextField
-						name="username"
-						value={loginData.username}
-						onChange={onTextFieldChange}
-						required
+						name="email"
+						value={formik.values.email}
+						onChange={formik.handleChange}
+						error={formik.touched.email && Boolean(formik.errors.email)}
+						helperText={formik.touched.email && formik.errors.email}
 						variant="outlined"
-						helperText="Example. mano@gmail.com"
+						required
 					/>
 				</Stack>
 				<Stack>
 					<FormLabel>Enter your Password</FormLabel>
 					<PasswordInput
 						name="password"
-						value={loginData.password}
-						onChange={onTextFieldChange}
+						value={formik.values.password}
+						onChange={formik.handleChange}
+						error={formik.touched.password && Boolean(formik.errors.password)}
+						helperText={formik.touched.password && formik.errors.password}
 					/>
 				</Stack>
 				<FormControlLabel
@@ -114,12 +119,26 @@ function LoginForm() {
 				variant="contained"
 				color="primary"
 				size="large"
-				onClick={handleLoginClick}
+				type="submit"
+				onClick={formik.handleSubmit}
 			>
 				Log in
 			</Button>
 		</>
 	);
 }
+
+const INITIAL_VALUES = {
+	email: "",
+	password: "",
+};
+/* how to validate  "email/password is incorrect"? */
+const validationSchema = yup.object({
+	email: yup
+		.string("Enter your email")
+		.email("Enter a valid email")
+		.required("Email is required"),
+	password: yup.string("Enter your password").required("Password is required"),
+});
 
 export default LoginForm;
